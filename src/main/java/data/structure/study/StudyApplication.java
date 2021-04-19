@@ -1,7 +1,12 @@
 package data.structure.study;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import data.structure.study.common.PrintDataStructure;
+import data.structure.study.common.printDataStructure;
 
 @SpringBootApplication
 public class StudyApplication {
@@ -39,6 +44,30 @@ public class StudyApplication {
 		System.out.println("==========================二叉树-后序遍历=========================================");
 		treeNode.postorder(treeNode);
 		System.out.println("");
+
+		System.out.println("==========================二叉树-插入节点=======================================");
+		var mTree = new MyBinSearchTree(null);
+		mTree.insert(63);
+		mTree.insert(90);
+		mTree.insert(70);
+		mTree.insert(55);
+		mTree.insert(67);
+		mTree.insert(42);
+		mTree.insert(98);
+		mTree.insert(83);
+		mTree.insert(10);
+		mTree.insert(45);
+		mTree.insert(58);
+
+		var printD=new PrintDataStructure();
+		printD.print(mTree.root);
+
+		System.out.println("==========================二叉树-搜索元素=======================================");
+		var isExit = mTree.seach(63);
+		System.out.println(isExit ? "找到了！" : "抱歉，没有找到！");
+
+		System.out.println("==========================二叉树-删除元素=======================================");
+		//mTree.delete();
 
 	}
 
@@ -132,20 +161,18 @@ public class StudyApplication {
 		d.left = h;
 		d.right = i;
 
-		var f=new TreeNode<String>("F");
-		var g=new TreeNode<String>("G");
-		c.left=f;
-		c.right=g;
+		var f = new TreeNode<String>("F");
+		var g = new TreeNode<String>("G");
+		c.left = f;
+		c.right = g;
 
-		var j=new TreeNode<String>("J");
-		g.left=j;
+		var j = new TreeNode<String>("J");
+		g.left = j;
 
-		var k=new TreeNode<String>("K");
-		j.right=k;
-
+		var k = new TreeNode<String>("K");
+		j.right = k;
 
 		return resultNodeRoot;
-
 	}
 
 }
