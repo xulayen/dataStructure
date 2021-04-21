@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import data.structure.study.common.PrintDataStructure;
-import data.structure.study.common.printDataStructure;
 
 @SpringBootApplication
 public class StudyApplication {
@@ -59,15 +58,28 @@ public class StudyApplication {
 		mTree.insert(45);
 		mTree.insert(58);
 
-		var printD=new PrintDataStructure();
-		printD.print(mTree.root);
+		var printD = new PrintDataStructure();
+		printD.printTreeNode(mTree.root);
+		System.out.println("");
 
 		System.out.println("==========================二叉树-搜索元素=======================================");
 		var isExit = mTree.seach(63);
 		System.out.println(isExit ? "找到了！" : "抱歉，没有找到！");
 
-		System.out.println("==========================二叉树-删除元素=======================================");
-		//mTree.delete();
+		// System.out.println("==========================二叉树-删除元素=======================================");
+		// mTree.delete(42);
+		// printD.printTreeNode(mTree.root);
+		// System.out.println("");
+
+		// System.out.println("==========================二叉树-修改元素=======================================");
+		// mTree.update(42, 48);
+		// printD.printTreeNode(mTree.root);
+		// System.out.println("");
+
+		System.out.println("==========================二叉树-翻转=======================================");
+		var nodeTree=mTree.invertTree(mTree.root);
+		printD.printTreeNode(nodeTree);
+
 
 	}
 

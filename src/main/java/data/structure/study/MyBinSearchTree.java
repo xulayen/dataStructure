@@ -12,7 +12,7 @@ public class MyBinSearchTree<T extends Comparable<T>> {
     }
 
     /**
-     * 二叉搜索树
+     * 搜索节点
      * 
      * @param t
      * @return
@@ -31,6 +31,11 @@ public class MyBinSearchTree<T extends Comparable<T>> {
         return false;
     }
 
+    /**
+     * 插入节点
+     * @param t
+     * @return
+     */
     public boolean insert(T t) {
         // 如果节点为空，则创建根节点
         if (this.root == null) {
@@ -60,38 +65,30 @@ public class MyBinSearchTree<T extends Comparable<T>> {
         return true;
     }
 
+    /**
+     * 修改节点
+     * @param oldV
+     * @param newV
+     * @return
+     */
     public boolean update(T oldV, T newV) {
         // 是否存在
         if (oldV == null) {
             return false;
         } else {
-
-            TreeNode<T> parent = null;
-            TreeNode<T> current = this.root;
-            while (current != null) {
-                if (oldV.compareTo(current.element) < 0) {
-                    parent = current;
-                    current = current.left;
-                } else if (oldV.compareTo(current.element) > 0) {
-                    parent = current;
-                    current = current.right;
-                } else {
-                    break;
-                }
-            }
-
-            if (oldV.compareTo(current.left.element) == 0) {
-                parent.left = null;
-            } else if (oldV.compareTo(current.right.element) == 0) {
-                parent.right = null;
-            }
-
+            var del = delete(oldV);
+            if (del)
+                insert(newV);
+            return false;
         }
-
-        return true;
 
     }
 
+    /**
+     * 删除节点
+     * @param t
+     * @return
+     */
     public boolean delete(T t) {
 
         TreeNode<T> parent = null;
@@ -134,7 +131,7 @@ public class MyBinSearchTree<T extends Comparable<T>> {
                 parentOfRightMost = rightMost;
                 rightMost = rightMost.right;
             }
-            
+
             // 把当前节点的左子树中的最大的元素复制给当前元素
             // 当前要删除的节点的左子树中的最大的节点替换当前将要删除节点
             current.element = rightMost.element;
@@ -149,6 +146,29 @@ public class MyBinSearchTree<T extends Comparable<T>> {
             }
         }
         return true;
+    }
+
+
+            
+    /**
+     * 翻转二叉树
+     * @param root
+     * @return
+     */
+    public TreeNode<T> invertTree(TreeNode<T> root) {
+        if (root == null) {
+            return null;
+        }
+
+        TreeNode<T> tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+
+        invertTree(root.left);
+        invertTree(root.right);
+
+        return root;
+
     }
 
     private TreeNode<T> createNewNode(T t) {
