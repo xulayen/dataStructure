@@ -7,6 +7,7 @@ public class TreeNode<T> {
     public T element;
     public TreeNode<T> left;
     public TreeNode<T> right;
+    public TreeNode<T> next;
 
     public TreeNode(T e) {
         element = e;
@@ -26,8 +27,8 @@ public class TreeNode<T> {
     }
 
     /**
-     * 中序遍历
-     * 
+     * 中序遍历 
+     * 升序
      * @param root
      */
     protected void inorder(TreeNode<T> root) {
@@ -39,17 +40,17 @@ public class TreeNode<T> {
     }
 
     /**
-     * 中序遍历
-     * 
+     * 中序遍历 
+     * 降序
      * @param root
      */
-    protected void inorder2(TreeNode<T> root) {
+    protected void inorderDesc(TreeNode<T> root) {
         if (root == null)
             return;
 
-        inorder2(root.right);
+        inorderDesc(root.right);
         System.out.print(root.element + " ");
-        inorder2(root.left);
+        inorderDesc(root.left);
     }
 
     /**

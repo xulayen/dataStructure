@@ -36,8 +36,8 @@ public class StudyApplication {
 		treeNode.inorder(treeNode);
 		System.out.println("");
 
-		System.out.println("==========================二叉树-中序遍历2=========================================");
-		treeNode.inorder2(treeNode);
+		System.out.println("==========================二叉树-中序遍历降序=========================================");
+		treeNode.inorderDesc(treeNode);
 		System.out.println("");
 
 		System.out.println("==========================二叉树-后序遍历=========================================");
@@ -62,9 +62,9 @@ public class StudyApplication {
 		printD.printTreeNode(mTree.root);
 		System.out.println("");
 
-		System.out.println("==========================二叉树-搜索元素=======================================");
-		var isExit = mTree.seach(63);
-		System.out.println(isExit ? "找到了！" : "抱歉，没有找到！");
+		// System.out.println("==========================二叉树-搜索元素=======================================");
+		// var isExit = mTree.seach(63);
+		// System.out.println(isExit ? "找到了！" : "抱歉，没有找到！");
 
 		// System.out.println("==========================二叉树-删除元素=======================================");
 		// mTree.delete(42);
@@ -76,10 +76,36 @@ public class StudyApplication {
 		// printD.printTreeNode(mTree.root);
 		// System.out.println("");
 
-		System.out.println("==========================二叉树-翻转=======================================");
-		var nodeTree=mTree.invertTree(mTree.root);
-		printD.printTreeNode(nodeTree);
+		// System.out.println("==========================二叉树-翻转=======================================");
+		// var nodeTree=mTree.invertTree(mTree.root);
+		// printD.printTreeNode(nodeTree);
 
+		// System.out.println("==========================二叉树-填充每个节点的右侧指针=======================================");
+		// var nodeTree = mTree.linkTree(mTree.root);
+		// printD.printTreeNode(nodeTree);
+
+		// System.out.println("==========================二叉树-拉平二叉树为链表=======================================");
+		// nodeTree = mTree.flatten(mTree.root);
+		// // printD.printTreeNode(nodeTree);
+
+		// System.out.println("==========================数组转换成二叉树=======================================");
+		// int[] array = new int[] { 3, 2, 1, 6, 0, 5 };
+		// nodeTree = mTree.constructMaximumBinaryTree(array);
+		// printD.printTreeNode(nodeTree);
+
+		// System.out.println("==========================二叉树-查找重复子节点=======================================");
+		// var nodes = treeNodeInit();
+		// printD.printTreeNode(nodes);
+		// var akList = mTree.findDuplicateSubtrees(nodes);
+		// System.out.println(akList);
+
+		System.out.println("==========================二叉搜索树-中序遍历=======================================");
+		mTree.root.inorder(mTree.root);
+		System.out.println("");
+
+		System.out.println("==========================二叉搜索树-寻找第K小的元素=======================================");
+		var ele = mTree.kthSmallest(mTree.root,7);
+		System.out.println(ele);
 
 	}
 
@@ -183,6 +209,11 @@ public class StudyApplication {
 
 		var k = new TreeNode<String>("K");
 		j.right = k;
+
+		var k1 = new TreeNode<String>("K");
+		var H1 = new TreeNode<String>("H");
+		f.right = H1;
+		e.left = k1;
 
 		return resultNodeRoot;
 	}
