@@ -8,6 +8,8 @@ public class TreeNode<T> {
     public TreeNode<T> left;
     public TreeNode<T> right;
     public TreeNode<T> next;
+    // 当前节点的子节点总数
+    public int size;
 
     public TreeNode(T e) {
         element = e;
@@ -27,8 +29,8 @@ public class TreeNode<T> {
     }
 
     /**
-     * 中序遍历 
-     * 升序
+     * 中序遍历 升序
+     * 
      * @param root
      */
     protected void inorder(TreeNode<T> root) {
@@ -40,8 +42,8 @@ public class TreeNode<T> {
     }
 
     /**
-     * 中序遍历 
-     * 降序
+     * 中序遍历 降序
+     * 
      * @param root
      */
     protected void inorderDesc(TreeNode<T> root) {

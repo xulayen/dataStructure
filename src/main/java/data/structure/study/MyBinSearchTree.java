@@ -53,9 +53,11 @@ public class MyBinSearchTree<T extends Comparable<T>> {
                 if (t.compareTo(current.element) < 0) {
                     parent = current;
                     current = current.left;
+                    parent.size++;
                 } else if (t.compareTo(current.element) > 0) {
                     parent = current;
                     current = current.right;
+                    parent.size++;
                 } else {
                     return false;
                 }
@@ -104,9 +106,11 @@ public class MyBinSearchTree<T extends Comparable<T>> {
             if (t.compareTo(current.element) < 0) {
                 parent = current;
                 current = current.left;
+                parent.size--;
             } else if (t.compareTo(current.element) > 0) {
                 parent = current;
                 current = current.right;
+                parent.size--;
             } else {
                 break;
             }
@@ -309,7 +313,7 @@ public class MyBinSearchTree<T extends Comparable<T>> {
     }
 
     /**
-     * 寻找第 K 小的元素
+     * 寻找第 K 小的元素 时间复杂度O(N)
      * 
      * @param root
      * @param k
@@ -318,6 +322,38 @@ public class MyBinSearchTree<T extends Comparable<T>> {
     public T kthSmallest(TreeNode<T> root, int k) {
         traverseKthSmallest(root, k);
         return kthSmallestRes;
+    }
+
+    /**
+     * 寻找第 K 小的元素 时间复杂度O(logN)
+     * 
+     * @param root
+     * @param k
+     * @return
+     */
+    public T kthSmallestFast(TreeNode<T> root, int k) {
+
+        if (root == null || root.left == null || root.right == null)
+            return null;
+
+        kthSmallestFast(root.left, k);
+
+        kthSmallestRank = root.size - root.left.size - 1;
+        // 中序遍历位置
+        if (k < root.size) {
+            root = root.left;
+
+        } else if (k > root.size) {
+            root = root.right;
+            k = k - root.right.size - 1;
+        } else {
+            kthSmallestRes = root.element;
+        }
+
+        kthSmallestFast(root.right, k);
+
+        return kthSmallestRes;
+
     }
 
     // 记录结果
