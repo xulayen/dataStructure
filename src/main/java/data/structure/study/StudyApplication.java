@@ -104,7 +104,7 @@ public class StudyApplication {
 		System.out.println("");
 
 		System.out.println("==========================二叉搜索树-寻找第K小的元素=======================================");
-		var ele = mTree.kthSmallestFast(mTree.root, 1);
+		var ele = mTree.select(mTree.root, 1);
 		System.out.println(ele);
 
 	}

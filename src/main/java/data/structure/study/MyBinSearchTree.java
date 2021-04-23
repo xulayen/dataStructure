@@ -331,30 +331,37 @@ public class MyBinSearchTree<T extends Comparable<T>> {
      * @param k
      * @return
      */
-    public T kthSmallestFast(TreeNode<T> root, int k) {
-
-        if (root == null || root.left == null || root.right == null)
+    public T select(TreeNode<T> root, int k) {
+        if (root == null)
             return null;
-
-        kthSmallestFast(root.left, k);
-
-        kthSmallestRank = root.size - root.left.size - 1;
-        // 中序遍历位置
-        if (k < root.size) {
-            root = root.left;
-
-        } else if (k > root.size) {
-            root = root.right;
-            k = k - root.right.size - 1;
-        } else {
-            kthSmallestRes = root.element;
-        }
-
-        kthSmallestFast(root.right, k);
-
-        return kthSmallestRes;
-
+        return rank(root, k).element;
     }
+
+    private TreeNode<T> rank(TreeNode<T> root, int k) {
+        if (root == null )
+            return null;
+        int t = size(root.left);
+        if (t > k)
+            return rank(root.left, k);
+        else if (t < k)
+            return rank(root.right, k - t -1);
+        else
+            return root;
+    }
+
+
+    /**
+     * 获取节点数量
+     * 
+     * @param root
+     * @return
+     */
+    private int size(TreeNode<T> root)
+    {
+        if(root==null) return 0;
+        else return root.size;
+    }
+
 
     // 记录结果
     private T kthSmallestRes;
