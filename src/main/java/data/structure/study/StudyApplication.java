@@ -5,6 +5,7 @@ import javax.naming.spi.DirStateFactory.Result;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import data.structure.study.common.Codec;
 import data.structure.study.common.PrintDataStructure;
 
 @SpringBootApplication
@@ -106,6 +107,32 @@ public class StudyApplication {
 		System.out.println("==========================二叉搜索树-寻找第K小的元素=======================================");
 		var ele = mTree.select(mTree.root, 1);
 		System.out.println(ele);
+
+		System.out.println("==========================二叉搜索树-校验是否是平衡搜索二叉树=======================================");
+		var isBST = mTree.isValidBST(mTree.root);
+		System.out.println(isBST ? "是BST" : "不是BST!!");
+
+		System.out.println("==========================二叉搜索树-BST 插入=======================================");
+		var resTree = mTree.insert(mTree.root, 90);
+		printD.printTreeNode(mTree.root);
+
+		// System.out.println("==========================二叉搜索树-BST
+		// 删除=======================================");
+		// mTree.delete(mTree.root, 70);
+		// printD.printTreeNode(mTree.root);
+
+		System.out.println("==========================二叉搜索树-BST 找到最大值的和=======================================");
+		var res = mTree.sumBST2(mTree.root);
+		System.out.println(res);
+
+		System.out.println("==========================二叉搜索树-序列化=======================================");
+		var ch=new Codec();
+		var resStr = ch.serialize(mTree.root);
+		System.out.println(resStr);
+
+		System.out.println("==========================二叉搜索树-反序列化=======================================");
+		var res2 = ch.deserialize(resStr);
+		printD.printTreeNode(res2);
 
 	}
 

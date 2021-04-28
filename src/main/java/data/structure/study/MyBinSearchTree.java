@@ -36,6 +36,25 @@ public class MyBinSearchTree<T extends Comparable<T>> {
     }
 
     /**
+     * 节点是否存在
+     * 
+     * @param root
+     * @param t
+     * @return
+     */
+    public boolean search(TreeNode<T> root, T t) {
+        if (root == null)
+            return false;
+        if (root.element.compareTo(t) < 0) {
+            return search(root.right, t);
+        } else if (root.element.compareTo(t) > 0) {
+            return search(root.left, t);
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * 插入节点
      * 
      * @param t
@@ -70,6 +89,30 @@ public class MyBinSearchTree<T extends Comparable<T>> {
             }
         }
         return true;
+    }
+
+    /**
+     * 插入
+     * 
+     * @param root
+     * @param t
+     * @return
+     */
+    public TreeNode<T> insert(TreeNode<T> root, T t) {
+        if (root == null) {
+            return new TreeNode<T>(t);
+        } else {
+            if (root.element.compareTo(t) < 0) {
+                root.size++;
+                root.right = insert(root.right, t);
+            } else if (root.element.compareTo(t) > 0) {
+                root.size++;
+                root.left = insert(root.left, t);
+            } else {
+                // 重复的数据一般不做插入
+            }
+        }
+        return root;
     }
 
     /**
@@ -156,6 +199,70 @@ public class MyBinSearchTree<T extends Comparable<T>> {
             }
         }
         return true;
+    }
+
+    /**
+     * 删除节点
+     * 
+     * @param root
+     * @param t
+     * @return
+     */
+    public TreeNode<T> delete(TreeNode<T> root, T t) {
+        if (root == null)
+            return null;
+
+        if (root.element.compareTo(t) < 0) {
+            root.right = delete(root.right, t);
+        } else if (root.element.compareTo(t) > 0) {
+            root.left = delete(root.left, t);
+        } else {
+            // 找到了！执行删除操作
+
+            // case：No Child 当前节点是末位节点
+            // case：one Child 只有一个非空子节点
+            if (root.left == null) {
+                return root.right;
+            }
+            if (root.right == null) {
+                return root.left;
+            }
+
+            // case：two Child
+            // 找到右子树中的最小值
+            var minNode = getMinNode(root.right);
+            root.element = minNode.element;
+            root.right = delete(root.right, minNode.element);
+        }
+        return root;
+    }
+
+    /**
+     * 获取最小的子节点
+     * 
+     * @param root
+     * @return
+     */
+    private TreeNode<T> getMinNode(TreeNode<T> root) {
+        if (root == null)
+            return null;
+        while (root.left != null)
+            root = root.left;
+        return root;
+    }
+
+    /**
+     * 获取最大值
+     * 
+     * @param root
+     * @return
+     */
+    private TreeNode<T> getMaxNode(TreeNode<T> root) {
+        if (root == null)
+            return null;
+        while (root.right != null)
+            root = root.right;
+        return root;
     }
 
     /**
@@ -325,7 +432,7 @@ public class MyBinSearchTree<T extends Comparable<T>> {
     }
 
     /**
-     * 寻找第 K 小的元素 时间复杂度O(logN)
+     * 寻找第 K 小的元素 时间复杂度O(logN) 错误
      * 
      * @param root
      * @param k
@@ -338,17 +445,167 @@ public class MyBinSearchTree<T extends Comparable<T>> {
     }
 
     private TreeNode<T> rank(TreeNode<T> root, int k) {
-        if (root == null )
+        if (root == null)
             return null;
         int t = size(root.left);
         if (t > k)
             return rank(root.left, k);
         else if (t < k)
-            return rank(root.right, k - t -1);
+            return rank(root.right, k - t - 1);
         else
             return root;
     }
 
+    /**
+     * 校验是否是BST 限定以 root 为根的子树节点必须满足 max.val > root.val > min.val
+     * 
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode<T> root) {
+        if (root == null)
+            return true;
+        return isValidBST(root, null, null);
+    }
+
+    private boolean isValidBST(TreeNode<T> root, TreeNode<T> min, TreeNode<T> max) {
+        if (root == null)
+            return true;
+
+        if (min != null && root.element.compareTo(min.element) <= 0)
+            return false;
+
+        if (max != null && root.element.compareTo(max.element) >= 0)
+            return false;
+
+        return isValidBST(root.left, min, root) && isValidBST(root.right, root, max);
+    }
+
+    /**
+     * BST遍历框架
+     * 
+     * @param root
+     * @param t
+     */
+    public void BST(TreeNode<T> root, T t) {
+
+        if (root.element.compareTo(t) == 0) {
+            // 做点什么
+        }
+
+        if (root.element.compareTo(t) < 0) {
+            BST(root.right, t);
+        }
+
+        if (root.element.compareTo(t) > 0) {
+            BST(root.left, t);
+        }
+
+    }
+
+    public int sumBST(TreeNode<T> root) {
+        if (root == null)
+            return 0;
+        maxSumBST(root);
+        return maxSum;
+    }
+
+    public int sumBST2(TreeNode<T> root) {
+        if (root == null)
+            return 0;
+        var a = maxSumBST2(root);
+        return a[3];
+    }
+
+    /**
+     * 后续遍历
+     * 
+     * @param root
+     * @return
+     */
+    private int[] maxSumBST2(TreeNode<T> root) {
+        if (root == null)
+            // [0]:节点是否是BST，[1]节点最大值，[2]节点最小值，[3]节点之和
+            return new int[] { 1, Integer.MAX_VALUE, Integer.MIN_VALUE, 0 };
+
+        int[] left = maxSumBST2(root.left);
+        int[] right = maxSumBST2(root.right);
+
+        /******* 后序遍历位置 */
+        int[] res = new int[4];
+        if (left[0] == 1 && right[0] == 1 && (int) root.element > (left[2]) && (int) root.element < (right[1])) {
+
+            /** 左右节点都是BST，而且 当前节点大于左子树的最大值，小于右子树的最小值 */
+            res[0] = 1;
+
+            /** 计算当前节点为跟的最小值 */
+            res[1] = Math.min(left[1], (int) root.element);
+
+            /** 计算当前节点为跟的最大值 */
+            res[2] = Math.min(right[2], (int) root.element);
+
+            /** 计算最大值之和 */
+            res[3] = left[3] + right[3] + (int) root.element;
+
+        }
+        return res;
+    }
+
+    int maxSum = 0;
+
+    /**
+     * 查询最大键值和 前序遍历
+     * 
+     * @param root
+     * @return
+     */
+    private void maxSumBST(TreeNode<T> root) {
+        if (root == null)
+            return;
+        var bLeft = isValidBST(root.left);
+        var bRight = isValidBST(root.right);
+        if (!bLeft || !bRight) {
+            return;
+        }
+
+        // 计算左子树的最大值和右子树的最小值
+        var nMax = getMaxNode(root.left);
+        var nMin = getMinNode(root.right);
+
+        if (nMax == null || nMin == null)
+            return;
+
+        // 是否是BST，当前节点大于左子树的最大值 而且 小于右子树的最小值
+        if (root.element.compareTo(nMax.element) < 0 || root.element.compareTo(nMin.element) > 0) {
+            return;
+        }
+
+        var leftSum = sum(root.left);
+        var rightSum = sum(root.right);
+
+        var rootSum = leftSum + rightSum + (int) root.element;
+        this.maxSum = Math.max(maxSum, rootSum);
+
+        maxSumBST(root.left);
+        maxSumBST(root.right);
+
+    }
+
+    private int sum(TreeNode<T> root) {
+        sum = 0;
+        findSum(root);
+        return sum;
+    }
+
+    int sum = 0;
+
+    private void findSum(TreeNode<T> root) {
+        if (root == null)
+            return;
+        findSum(root.left);
+        findSum(root.right);
+        sum += (int) root.element;
+    }
 
     /**
      * 获取节点数量
@@ -356,12 +613,12 @@ public class MyBinSearchTree<T extends Comparable<T>> {
      * @param root
      * @return
      */
-    private int size(TreeNode<T> root)
-    {
-        if(root==null) return 0;
-        else return root.size;
+    private int size(TreeNode<T> root) {
+        if (root == null)
+            return 0;
+        else
+            return root.size;
     }
-
 
     // 记录结果
     private T kthSmallestRes;
